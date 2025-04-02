@@ -1,3 +1,5 @@
+const ps = require("prompt-sync");
+
 const A = [1, 11];
 const literal = ["J", "Q", "K"];
 let deck = [
@@ -76,7 +78,7 @@ const crupier = {
     return this.cDeck;
   },
   cDraw() {
-    this.cHand.push(crupier.cDeck.pop())
+    this.cHand.push(crupier.cDeck.pop());
   },
   give() {
     return this.cDeck.pop();
@@ -90,15 +92,36 @@ const player = {
   },
 };
 
-console.log('Vamos a jugar BlackJack');
-console.log('El crupier va a barajar')
+console.log("Vamos a jugar BlackJack");
+console.log("El crupier va a barajar");
 crupier.shuffle();
-console.log('Ahora va a entregar las cartas');
-player.hit()
-player.hit()
-crupier.cDraw()
-crupier.cDraw()
+console.log("Ahora va a entregar las cartas");
+player.hit();
+crupier.cDraw();
+player.hit();
+crupier.cDraw();
 
-console.log(`Tu mano es ${player.pHand.join(', ')}`);
-console.log(`La mano de el crupier es ${crupier.cHand[0]}`)
+function totalValue(hand = []) {
+  let total = 0
+  hand.forEach(element => {
+    if (literal.includes(element)) {
+      total = total + 10
+    } else if (typeof element === 'number') {
+      total = total + element
+    } else if (element === 'A') {
+      if ((total + 11) <= 21) {
+        total = total + 11
+      } else if ((total + 11) > 21) {
+        total = total + 1
+      }
+    }
+  });
+  return total
+}
+
+let playerTotal = totalValue(player.pHand);
+let crupierTotal = totalValue(crupier.cHand);
+
+console.log(`tus cartas son ${player.pHand.join(', ')} para un total de ${playerTotal}`);
+console.log(`las cartas del crupier son ${crupier.cHand.join(', ')} para un total de ${crupierTotal}`);
 
