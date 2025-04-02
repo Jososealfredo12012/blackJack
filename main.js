@@ -75,25 +75,30 @@ const crupier = {
     }
     return this.cDeck;
   },
-  cDraw(){
-    this.cHand = this.cDeck.pop()
+  cDraw() {
+    this.cHand.push(crupier.cDeck.pop())
   },
-  give(){
-    return this.cDeck.pop()
-  }
+  give() {
+    return this.cDeck.pop();
+  },
 };
 
 const player = {
   pHand: [],
-  hit(){
-    pHand = this.pHand.push(crupier.give())
-  }
-}
+  hit() {
+    pHand = this.pHand.push(crupier.give());
+  },
+};
 
-crupier.shuffle()
+console.log('Vamos a jugar BlackJack');
+console.log('El crupier va a barajar')
+crupier.shuffle();
+console.log('Ahora va a entregar las cartas');
+player.hit()
+player.hit()
+crupier.cDraw()
+crupier.cDraw()
 
-player.hit()
-player.hit()
-player.hit()
-player.hit()
-console.log(player.pHand);
+console.log(`Tu mano es ${player.pHand.join(', ')}`);
+console.log(`La mano de el crupier es ${crupier.cHand[0]}`)
+
