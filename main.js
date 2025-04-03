@@ -102,74 +102,90 @@ player.hit();
 crupier.cDraw();
 
 function totalValue(hand = []) {
-  let total = 0
-  hand.forEach(element => {
+  let total = 0;
+  hand.forEach((element) => {
     if (literal.includes(element)) {
-      total = total + 10
-    } else if (typeof element === 'number') {
-      total = total + element
-    } else if (element === 'A') {
-      if ((total + 11) <= 21) {
-        total = total + 11
-      } else if ((total + 11) > 21) {
-        total = total + 1
+      total = total + 10;
+    } else if (typeof element === "number") {
+      total = total + element;
+    } else if (element === "A") {
+      if (total + 11 <= 21) {
+        total = total + 11;
+      } else if (total + 11 > 21) {
+        total = total + 1;
       }
     }
   });
-  return total
+  return total;
 }
 
 let playerTotal = totalValue(player.pHand);
 let crupierTotal = totalValue(crupier.cHand);
 
-console.log(`tus cartas son ${player.pHand.join(', ')} para un total de ${playerTotal}`);
-console.log(`las cartas del crupier son ${crupier.cHand.join(', ')} para un total de ${crupierTotal}`);
+console.log(
+  `tus cartas son ${player.pHand.join(", ")} para un total de ${playerTotal}`
+);
+console.log(
+  `las cartas del crupier son ${crupier.cHand.join(
+    ", "
+  )} para un total de ${crupierTotal}`
+);
 
 function playerChoice() {
-  console.log('1. hit');
-  console.log('2. stay');
-  const ps = require("prompt-sync")
-  const prompt = ps()
+  console.log("1. hit");
+  console.log("2. stay");
+  const ps = require("prompt-sync");
+  const prompt = ps();
   while (true) {
-      let choice = prompt('Elige una opcion: ')   
-      if (choice === '1' || choice === '2') {
-          return Number(choice)
-      } else{
-          console.log('???');
-      }
+    let choice = prompt("Elige una opcion: ");
+    if (choice === "1" || choice === "2") {
+      return Number(choice);
+    } else {
+      console.log("???");
+    }
   }
 }
 
 //inicio de el juego
 if (playerTotal === 21) {
   console.log("has obtenido un blackjack!!!!");
-} else if (crupierTotal === 21){
+} else if (crupierTotal === 21) {
   console.log("Has perdido :(");
-}
-
-//turno de el jugador
-while (playerTotal < 21 && crupierTotal < 21) {
-  let hitOrStay = playerChoice()
-  if (hitOrStay === 1) {
-    player.hit()
-    playerTotal = totalValue(player.pHand)
-    console.log(`tu nueva mano es ${player.pHand.join(', ')} para un total de ${playerTotal}`);
-  } else if (hitOrStay === 2){
-    break;
-  }
-}
-
-//turno de el dealer
-while (playerTotal < 21 && crupierTotal < 17) {
-  crupier.cDraw()
-  crupierTotal = totalValue(crupier.cHand)
-  console.log(`la nueva mano de el crupier es ${crupier.cHand.join(', ')} para un total de ${crupierTotal}`);
-}
-
-//determinar el ganador
-if ((playerTotal <= 21 && playerTotal > crupierTotal) || (playerTotal <= 21 && crupierTotal > 21)) {
-  console.log('has ganado');
 } else {
-  console.log('has perdido');
-  
+  //turno de el jugador
+  while (playerTotal < 21 && crupierTotal < 21) {
+    let hitOrStay = playerChoice();
+    if (hitOrStay === 1) {
+      player.hit();
+      playerTotal = totalValue(player.pHand);
+      console.log(
+        `tu nueva mano es ${player.pHand.join(
+          ", "
+        )} para un total de ${playerTotal}`
+      );
+    } else if (hitOrStay === 2) {
+      break;
+    }
+  }
+
+  //turno de el dealer
+  while (playerTotal < 21 && crupierTotal < 17) {
+    crupier.cDraw();
+    crupierTotal = totalValue(crupier.cHand);
+    console.log(
+      `la nueva mano de el crupier es ${crupier.cHand.join(
+        ", "
+      )} para un total de ${crupierTotal}`
+    );
+  }
+
+  //determinar el ganador
+  if (
+    (playerTotal <= 21 && playerTotal > crupierTotal) ||
+    (playerTotal <= 21 && crupierTotal > 21)
+  ) {
+    console.log("has ganado");
+  } else {
+    console.log("has perdido");
+  }
 }
