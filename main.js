@@ -140,12 +140,36 @@ function playerChoice() {
   }
 }
 
-//comienzo de el juego
-while (playerTotal < 21 && crupierTotal < 17) {
+//inicio de el juego
+if (playerTotal === 21) {
+  console.log("has obtenido un blackjack!!!!");
+} else if (crupierTotal === 21){
+  console.log("Has perdido :(");
+}
+
+//turno de el jugador
+while (playerTotal < 21 && crupierTotal < 21) {
   let hitOrStay = playerChoice()
   if (hitOrStay === 1) {
     player.hit()
     playerTotal = totalValue(player.pHand)
     console.log(`tu nueva mano es ${player.pHand.join(', ')} para un total de ${playerTotal}`);
+  } else if (hitOrStay === 2){
+    break;
   }
+}
+
+//turno de el dealer
+while (playerTotal < 21 && crupierTotal < 17) {
+  crupier.cDraw()
+  crupierTotal = totalValue(crupier.cHand)
+  console.log(`la nueva mano de el crupier es ${crupier.cHand.join(', ')} para un total de ${crupierTotal}`);
+}
+
+//determinar el ganador
+if ((playerTotal <= 21 && playerTotal > crupierTotal) || (playerTotal <= 21 && crupierTotal > 21)) {
+  console.log('has ganado');
+} else {
+  console.log('has perdido');
+  
 }
