@@ -127,7 +127,7 @@ console.log(`las cartas del crupier son ${crupier.cHand.join(', ')} para un tota
 
 function playerChoice() {
   console.log('1. hit');
-  console.log('2 stay');
+  console.log('2. stay');
   const ps = require("prompt-sync")
   const prompt = ps()
   while (true) {
@@ -140,4 +140,12 @@ function playerChoice() {
   }
 }
 
-console.log(playerChoice());
+//comienzo de el juego
+while (playerTotal < 21 && crupierTotal < 17) {
+  let hitOrStay = playerChoice()
+  if (hitOrStay === 1) {
+    player.hit()
+    playerTotal = totalValue(player.pHand)
+    console.log(`tu nueva mano es ${player.pHand.join(', ')} para un total de ${playerTotal}`);
+  }
+}
