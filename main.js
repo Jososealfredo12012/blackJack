@@ -125,3 +125,19 @@ let crupierTotal = totalValue(crupier.cHand);
 console.log(`tus cartas son ${player.pHand.join(', ')} para un total de ${playerTotal}`);
 console.log(`las cartas del crupier son ${crupier.cHand.join(', ')} para un total de ${crupierTotal}`);
 
+function playerChoice() {
+  console.log('1. hit');
+  console.log('2 stay');
+  const ps = require("prompt-sync")
+  const prompt = ps()
+  while (true) {
+      let choice = prompt('Elige una opcion: ')   
+      if (choice === '1' || choice === '2') {
+          return Number(choice)
+      } else{
+          console.log('???');
+      }
+  }
+}
+
+console.log(playerChoice());
